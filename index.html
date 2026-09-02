@@ -800,15 +800,6 @@
             background: white;
             border-top: 1px solid var(--border);
         }
-        .register-area {
-    text-align: center;
-}
-
-.register-area p {
-    font-size: 13px;
-    color: var(--muted-gray);
-    margin-bottom: 10px;
-}
 
         @media(max-width:1024px){
             .hero-grid, .features, .intelligence-grid, .proof-grid, .how-it-works-grid, .security-grid, .security-list {
@@ -845,23 +836,17 @@
 
         <div class="nav-actions">
 
-<div class="nav-actions">
+<button
+    class="btn btn-outline"
+    onclick="window.location.href='registro/index.html'">
+    Acceder
+</button>
 
-    <button
-        class="btn btn-outline"
-        type="button"
-        onclick="window.location.href='../login/index.html'">
-        Iniciar sesión
-    </button>
-
-    <button
-        class="btn btn-primary"
-        type="button"
-        onclick="window.location.href='../registro/index.html'">
-        Crear cuenta
-    </button>
-
-</div>
+<button
+    class="btn btn-primary"
+    onclick="window.location.href='registro/index.html'">
+    Solicitar Información
+</button>
 
 </div>
     </div>
@@ -1332,7 +1317,7 @@
     "
     onclick="
         window.location.href=
-        '../registro/index.html'
+        'registro/index.html'
     ">
 
     Comenzar Ahora
