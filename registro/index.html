@@ -1,0 +1,2618 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Crear cuenta | SERVINVEST</title>
+
+    <style>
+
+        /* =====================================================
+           VARIABLES
+        ====================================================== */
+
+        :root {
+
+            --primary: #198FD3;
+            --primary-dark: #0F6FAF;
+
+            --navy: #172B55;
+            --navy-light: #233B6B;
+
+            --text: #24364B;
+            --text-muted: #64748B;
+
+            --bg: #F4F7FB;
+            --white: #FFFFFF;
+
+            --border: #DCE4EE;
+
+            --success: #10B981;
+
+        }
+
+
+        /* =====================================================
+           GENERAL
+        ====================================================== */
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #F7F9FC 0%,
+                    #EEF3F8 100%
+                );
+
+            color: var(--text);
+
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        header {
+
+            height: 72px;
+
+            background: rgba(255,255,255,.92);
+
+            border-bottom:
+                1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 5%;
+
+        }
+
+
+        .header-content {
+
+            width: 100%;
+            max-width: 1180px;
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+
+
+        .logo {
+
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+
+        }
+
+
+        .logo img {
+
+            width: 70px;
+            height: auto;
+
+            object-fit: contain;
+
+        }
+
+
+        .login-link {
+
+            color: var(--text-muted);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+        }
+
+
+        .login-link:hover {
+
+            color: var(--primary);
+
+        }
+
+
+        /* =====================================================
+           CONTENEDOR PRINCIPAL
+        ====================================================== */
+
+        main {
+
+            width: 100%;
+            max-width: 980px;
+
+            margin: 0 auto;
+
+            padding:
+                42px 20px
+                55px;
+
+        }
+
+
+        /* =====================================================
+           ENCABEZADO
+        ====================================================== */
+
+        .page-header {
+
+            text-align: center;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .eyebrow {
+
+            color: var(--primary);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.8px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-header h1 {
+
+            font-size: 30px;
+
+            color: var(--navy);
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-header p {
+
+            font-size: 14px;
+
+            color: var(--text-muted);
+
+        }
+
+
+        /* =====================================================
+           CONTENEDOR DEL REGISTRO
+        ====================================================== */
+
+        .registration-card {
+
+            background: var(--white);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 18px 45px
+                rgba(30,41,59,.07);
+
+        }
+
+
+        /* =====================================================
+           INDICADORES DE PASOS
+        ====================================================== */
+
+        .steps {
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 14px;
+
+            padding: 25px 30px;
+
+            border-bottom:
+                1px solid var(--border);
+
+        }
+
+
+        .step-indicator {
+
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            color: var(--text-muted);
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .step-number {
+
+            width: 27px;
+            height: 27px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #EEF2F7;
+
+            font-size: 12px;
+            font-weight: 700;
+
+        }
+
+
+        .step-indicator.active {
+
+            color: var(--navy);
+
+            font-weight: 600;
+
+        }
+
+
+        .step-indicator.active .step-number {
+
+            background: var(--primary);
+
+            color: white;
+
+        }
+
+
+        .step-indicator.completed .step-number {
+
+            background: #E7F7F1;
+
+            color: var(--success);
+
+        }
+
+
+        .step-line {
+
+            width: 55px;
+            height: 1px;
+
+            background: var(--border);
+
+        }
+
+
+        /* =====================================================
+           PASOS
+        ====================================================== */
+
+        .form-step {
+
+            display: none;
+
+            padding: 36px 42px 42px;
+
+        }
+
+
+        .form-step.active {
+
+            display: block;
+
+        }
+
+
+        .step-title {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .step-title h2 {
+
+            color: var(--navy);
+
+            font-size: 23px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .step-title p {
+
+            color: var(--text-muted);
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           FORMULARIOS
+        ====================================================== */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+            flex-direction: column;
+
+        }
+
+
+        .form-group.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        label {
+
+            color: var(--text);
+
+            font-size: 12px;
+
+            font-weight: 650;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+            height: 48px;
+
+            padding: 0 14px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: var(--text);
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color .2s,
+                box-shadow .2s;
+
+        }
+
+
+        input:focus,
+        select:focus {
+
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(25,143,211,.10);
+
+        }
+
+
+        #businessField {
+
+            display: none;
+
+        }
+
+
+        /* =====================================================
+           ACCIONES
+        ====================================================== */
+
+        .actions {
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            margin-top: 30px;
+
+        }
+
+
+        .btn {
+
+            height: 47px;
+
+            padding: 0 22px;
+
+            border-radius: 10px;
+
+            border: none;
+
+            font-size: 14px;
+            font-weight: 650;
+
+            cursor: pointer;
+
+            transition:
+                transform .15s,
+                opacity .15s,
+                background .2s;
+
+        }
+
+
+        .btn:hover {
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .btn-primary {
+
+            background: var(--primary);
+
+            color: white;
+
+        }
+
+
+        .btn-primary:hover {
+
+            background: var(--primary-dark);
+
+        }
+
+
+        .btn-secondary {
+
+            background: white;
+
+            color: var(--text);
+
+            border:
+                1px solid var(--border);
+
+        }
+
+
+        .btn:disabled {
+
+            opacity: .65;
+            cursor: not-allowed;
+
+            transform: none;
+
+        }
+
+
+        /* =====================================================
+           MENSAJES
+        ====================================================== */
+
+        .message {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+        }
+
+
+        .message.error {
+
+            background: #FEF2F2;
+
+            color: #B91C1C;
+
+            border:
+                1px solid #FECACA;
+
+        }
+
+
+        /* =====================================================
+           PASO 2 - ACCESO
+        ====================================================== */
+
+        .access-container {
+
+            max-width: 500px;
+
+            margin: 0 auto;
+
+        }
+
+
+        .email-preview {
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 24px;
+
+            padding: 14px 16px;
+
+            background: #F7FAFC;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 11px;
+
+        }
+
+
+        .email-icon {
+
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: #E8F4FB;
+
+            color: var(--primary);
+
+        }
+
+
+        .email-preview small {
+
+            display: block;
+
+            color: var(--text-muted);
+
+            font-size: 10px;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .email-preview strong {
+
+            font-size: 13px;
+
+            color: var(--text);
+
+        }
+
+
+        .password-note {
+
+            margin-top: -8px;
+            margin-bottom: 20px;
+
+            font-size: 11px;
+
+            color: var(--text-muted);
+
+        }
+
+
+        /* =====================================================
+           PASO 3 - BIENVENIDA Y ECOSISTEMA
+        ====================================================== */
+
+        .welcome-top {
+
+            text-align: center;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .success-icon {
+
+            width: 46px;
+            height: 46px;
+
+            margin: 0 auto 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #E8F7F1;
+
+            color: var(--success);
+
+            font-size: 23px;
+
+        }
+
+
+        .welcome-top h2 {
+
+            color: var(--navy);
+
+            font-size: 24px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .welcome-top p {
+
+            color: var(--text-muted);
+
+            font-size: 13px;
+
+        }
+
+
+        .continuation-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+        }
+
+
+        /* PLATAFORMA PRINCIPAL */
+
+        .main-platform {
+
+            min-height: 245px;
+
+            padding: 28px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #172B55,
+                    #263F6E
+                );
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+
+        }
+
+
+        .platform-label {
+
+            font-size: 9px;
+
+            letter-spacing: 1.5px;
+
+            font-weight: 700;
+
+            opacity: .7;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .main-platform h3 {
+
+            font-size: 21px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .main-platform p {
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            opacity: .86;
+
+            margin-bottom: auto;
+
+        }
+
+
+        .main-platform a {
+
+            width: 100%;
+
+            margin-top: 24px;
+
+            height: 43px;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: var(--navy);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 700;
+
+        }
+
+
+        /* SOCIOS */
+
+        .partners-box {
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 20px;
+
+            background: #FBFCFE;
+
+        }
+
+
+        .partners-heading {
+
+            margin-bottom: 13px;
+
+        }
+
+
+        .partners-heading h3 {
+
+            color: var(--navy);
+
+            font-size: 16px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .partners-heading p {
+
+            color: var(--text-muted);
+
+            font-size: 11px;
+
+        }
+
+
+        .partner-option {
+
+            min-height: 57px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 9px 12px;
+
+            margin-bottom: 8px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 11px;
+
+            background: white;
+
+            text-decoration: none;
+
+            color: var(--text);
+
+            transition:
+                transform .15s,
+                border-color .2s,
+                box-shadow .2s;
+
+        }
+
+
+        .partner-option:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .partner-option:hover {
+
+            transform:
+                translateY(-1px);
+
+            border-color:
+                rgba(25,143,211,.45);
+
+            box-shadow:
+                0 5px 14px
+                rgba(30,41,59,.06);
+
+        }
+
+
+        .partner-option img {
+
+            width: 58px;
+            max-height: 30px;
+
+            object-fit: contain;
+
+        }
+
+
+        .partner-info {
+
+            flex: 1;
+
+        }
+
+
+        .partner-info strong {
+
+            display: block;
+
+            color: var(--navy);
+
+            font-size: 13px;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        .partner-info span {
+
+            color: var(--text-muted);
+
+            font-size: 10px;
+
+        }
+
+
+        .partner-arrow {
+
+            color: var(--primary);
+
+            font-size: 16px;
+
+        }
+
+
+        .ecosystem-note {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            font-size: 10px;
+
+            color: var(--text-muted);
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                height: 64px;
+
+            }
+
+
+            .login-link {
+
+                font-size: 12px;
+
+            }
+
+
+            main {
+
+                padding:
+                    30px 14px
+                    40px;
+
+            }
+
+
+            .page-header h1 {
+
+                font-size: 25px;
+
+            }
+
+
+            .steps {
+
+                gap: 7px;
+
+                padding: 19px 12px;
+
+            }
+
+
+            .step-indicator {
+
+                font-size: 11px;
+
+                gap: 6px;
+
+            }
+
+
+            .step-line {
+
+                width: 18px;
+
+            }
+
+
+            .form-step {
+
+                padding:
+                    28px 20px
+                    30px;
+
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .form-group.full {
+
+                grid-column: auto;
+
+            }
+
+
+            .continuation-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .actions {
+
+                flex-direction: column-reverse;
+
+            }
+
+
+            .btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header>
+
+        <div class="header-content">
+
+            <a
+                href="../inicio/index.html"
+                class="logo"
+            >
+
+                <img
+                    src="logo_blanco.png"
+                    alt="SERVINVEST"
+                >
+
+            </a>
+
+
+            <a
+                href="../login/index.html"
+                class="login-link"
+            >
+
+                ¿Ya tienes una cuenta? Inicia sesión
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+    ====================================================== -->
+
+    <main>
+
+
+        <div class="page-header">
+
+            <div class="eyebrow">
+                Ecosistema SERVINVEST
+            </div>
+
+            <h1>
+                Comienza con SERVINVEST
+            </h1>
+
+            <p>
+                Crea tu cuenta y descubre las soluciones
+                que pueden acompañarte.
+            </p>
+
+        </div>
+
+
+        <div class="registration-card">
+
+
+            <!-- =================================================
+                 INDICADORES
+            ================================================== -->
+
+            <div class="steps">
+
+                <div
+                    class="step-indicator active"
+                    id="indicator1"
+                >
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    <span>
+                        Tu información
+                    </span>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div
+                    class="step-indicator"
+                    id="indicator2"
+                >
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    <span>
+                        Tu acceso
+                    </span>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div
+                    class="step-indicator"
+                    id="indicator3"
+                >
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    <span>
+                        Continuar
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORMULARIO
+            ================================================== -->
+
+            <form id="registrationForm">
+
+
+                <!-- =============================================
+                     PASO 1
+                ============================================== -->
+
+                <section
+                    class="form-step active"
+                    id="step1"
+                >
+
+                    <div class="step-title">
+
+                        <h2>
+                            Cuéntanos un poco sobre ti
+                        </h2>
+
+                        <p>
+                            Esta información nos ayudará a
+                            orientarte dentro del ecosistema.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group full">
+
+                            <label for="nombre">
+                                Nombre completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                placeholder="Escribe tu nombre completo"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="tipoCliente">
+                                Tipo de cliente
+                            </label>
+
+                            <select
+                                id="tipoCliente"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecciona una opción
+                                </option>
+
+                                <option value="Persona física">
+                                    Persona física
+                                </option>
+
+                                <option value="Empresa">
+                                    Empresa
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="rfc">
+                                RFC
+                            </label>
+
+                            <input
+                                type="text"
+                                id="rfc"
+                                placeholder="Tu RFC"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div
+                            class="form-group full"
+                            id="businessField"
+                        >
+
+                            <label for="razonSocial">
+                                Razón social
+                            </label>
+
+                            <input
+                                type="text"
+                                id="razonSocial"
+                                placeholder="Nombre o razón social de la empresa"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="correo">
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                type="email"
+                                id="correo"
+                                placeholder="nombre@correo.com"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="telefono">
+                                Teléfono
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="telefono"
+                                placeholder="Número de contacto"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="pais">
+                                País de residencia u operación
+                            </label>
+
+                            <select
+                                id="pais"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecciona tu país
+                                </option>
+
+                                <option value="México">
+                                    México
+                                </option>
+
+                                <option value="Estados Unidos">
+                                    Estados Unidos
+                                </option>
+
+                                <option value="Canadá">
+                                    Canadá
+                                </option>
+
+                                <option value="Otro">
+                                    Otro
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="nextFromStep1()"
+                        >
+
+                            Continuar →
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     PASO 2
+                ============================================== -->
+
+                <section
+                    class="form-step"
+                    id="step2"
+                >
+
+                    <div class="step-title">
+
+                        <h2>
+                            Crea tu acceso
+                        </h2>
+
+                        <p>
+                            Elige una contraseña para acceder
+                            posteriormente a tu espacio SERVINVEST.
+                        </p>
+
+                    </div>
+
+
+                    <div class="access-container">
+
+
+                        <div class="email-preview">
+
+                            <div class="email-icon">
+                                ✉
+                            </div>
+
+                            <div>
+
+                                <small>
+                                    Tu cuenta será creada con
+                                </small>
+
+                                <strong id="emailPreview">
+                                    tu correo electrónico
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="password">
+                                Crea una contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Mínimo 8 caracteres"
+                                autocomplete="new-password"
+                            >
+
+                        </div>
+
+
+                        <p class="password-note">
+
+                            Utiliza al menos 8 caracteres.
+
+                        </p>
+
+
+                        <div class="form-group">
+
+                            <label for="confirmPassword">
+                                Confirma tu contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Repite tu contraseña"
+                                autocomplete="new-password"
+                            >
+
+                        </div>
+
+
+                        <div
+                            id="errorMessage"
+                            class="message error"
+                        ></div>
+
+
+                        <div class="actions">
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                onclick="previousStep(2)"
+                            >
+
+                                ← Regresar
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="createAccountButton"
+                                onclick="createAccountAndContinue()"
+                            >
+
+                                Crear mi cuenta y continuar →
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+<!-- =============================================
+     PASO 3
+================================================ -->
+
+<section
+    class="form-step"
+    id="step3"
+>
+
+    <div class="welcome-top">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <div class="eyebrow">
+            Tu cuenta está lista
+        </div>
+
+        <h2>
+            ¡Bienvenido a SERVINVEST!
+        </h2>
+
+        <p>
+            Tu registro ha sido completado.
+            Ahora puedes decidir cómo deseas continuar.
+        </p>
+
+    </div>
+
+
+    <div class="continuation-grid">
+
+
+        <!-- =====================================
+             SERVINVEST
+        ====================================== -->
+
+        <div class="main-platform">
+
+            <div class="platform-label">
+                PLATAFORMA PRINCIPAL
+            </div>
+
+            <h3>
+                Continúa en tu espacio financiero
+            </h3>
+
+            <p>
+                Explora las herramientas de inversión,
+                revisa tus configuraciones y comienza
+                a construir tu experiencia dentro
+                del ecosistema SERVINVEST.
+            </p>
+
+            <a
+                href="../dash_principal/index.html"
+                class="destination-link"
+                onclick="registrarDestino(event, 'SERVINVEST', '../dash_principal/index.html')"
+            >
+                Entrar a SERVINVEST →
+            </a>
+
+        </div>
+
+
+        <!-- =====================================
+             SOCIOS
+        ====================================== -->
+
+        <div class="partners-box">
+
+            <div class="partners-heading">
+
+                <h3>
+                    Explora nuestro ecosistema
+                </h3>
+
+                <p>
+                    Conoce soluciones adicionales
+                    de nuestros socios estratégicos.
+                </p>
+
+            </div>
+
+
+            <!-- CENTUM -->
+
+            <a
+                href="https://centum.mx/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="partner-option"
+                onclick="registrarDestino(event, 'CENTUM', 'https://centum.mx/', true)"
+            >
+
+                <img
+                    src="Centum.png"
+                    alt="Centum"
+                >
+
+                <div class="partner-info">
+
+                    <strong>
+                        Centum
+                    </strong>
+
+                    <span>
+                        Soluciones empresariales
+                    </span>
+
+                </div>
+
+                <div class="partner-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+            <!-- ROCKET FX -->
+
+            <a
+                href="https://rocketb2b.tech/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="partner-option"
+                onclick="registrarDestino(event, 'ROCKET', 'https://rocketb2b.tech/', true)"
+            >
+
+                <img
+                    src="Rocket.png"
+                    alt="Rocket FX"
+                >
+
+                <div class="partner-info">
+
+                    <strong>
+                        Rocket FX
+                    </strong>
+
+                    <span>
+                        Pagos internacionales
+                    </span>
+
+                </div>
+
+                <div class="partner-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+            <!-- WIREBIT -->
+
+            <a
+                href="https://home.wirebit.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="partner-option"
+                onclick="registrarDestino(event, 'WIREBIT', 'https://home.wirebit.com/', true)"
+            >
+
+                <img
+                    src="wirebit.png"
+                    alt="Wirebit"
+                >
+
+                <div class="partner-info">
+
+                    <strong>
+                        Wirebit
+                    </strong>
+
+                    <span>
+                        Activos digitales
+                    </span>
+
+                </div>
+
+                <div class="partner-arrow">
+                    →
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <p class="ecosystem-note">
+
+        Las soluciones disponibles pueden variar
+        de acuerdo con tu perfil y objetivos.
+
+    </p>
+
+
+    <div class="actions">
+
+        <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="previousStep(3)"
+        >
+            ← Regresar
+        </button>
+
+    </div>
+
+</section>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://ktniiycwdjhijvkfrmpo.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_FNHczlxLwl49X103Yxag2A_X-K-9mMm";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+        /* =====================================================
+           CONFIGURACIÓN
+        ====================================================== */
+
+        const SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbydNkIH2f1E0gCaq_nVlmFjyRlUtdKKJdMTC0vGt6RpsO3RbkIG2s4pusIf6ieEiJMW/exec";
+
+
+        let accountCreated = false;
+
+
+        /* =====================================================
+           ELEMENTOS
+        ====================================================== */
+
+        const form =
+            document.getElementById("registrationForm");
+
+        const tipoCliente =
+            document.getElementById("tipoCliente");
+
+        const businessField =
+            document.getElementById("businessField");
+
+        const razonSocial =
+            document.getElementById("razonSocial");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const createAccountButton =
+            document.getElementById("createAccountButton");
+
+
+        /* =====================================================
+           MOSTRAR RAZÓN SOCIAL
+        ====================================================== */
+
+        tipoCliente.addEventListener(
+            "change",
+            function () {
+
+                if (this.value === "Empresa") {
+
+                    businessField.style.display =
+                        "flex";
+
+                    razonSocial.required =
+                        true;
+
+                } else {
+
+                    businessField.style.display =
+                        "none";
+
+                    razonSocial.required =
+                        false;
+
+                    razonSocial.value = "";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           PASO 1 → PASO 2
+        ====================================================== */
+
+        function nextFromStep1() {
+
+
+            const nombre =
+                document.getElementById("nombre");
+
+            const tipo =
+                document.getElementById("tipoCliente");
+
+            const rfc =
+                document.getElementById("rfc");
+
+            const correo =
+                document.getElementById("correo");
+
+            const telefono =
+                document.getElementById("telefono");
+
+            const pais =
+                document.getElementById("pais");
+
+
+            if (
+
+                !nombre.value.trim() ||
+                !tipo.value ||
+                !rfc.value.trim() ||
+                !correo.value.trim() ||
+                !telefono.value.trim() ||
+                !pais.value
+
+            ) {
+
+                alert(
+                    "Por favor completa todos los campos obligatorios."
+                );
+
+                return;
+
+            }
+
+
+            if (
+
+                tipo.value === "Empresa" &&
+                !razonSocial.value.trim()
+
+            ) {
+
+                alert(
+                    "Por favor ingresa la razón social de la empresa."
+                );
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "emailPreview"
+            ).textContent =
+                correo.value.trim();
+
+
+            showStep(2);
+
+        }
+
+        /* =====================================================
+           CREAR CUENTA Y GUARDAR REGISTRO
+
+           ESTE ES EL MOMENTO EN EL QUE:
+           1. Validamos la contraseña.
+           2. Enviamos los datos al Apps Script.
+           3. Avanzamos al Paso 3.
+
+           LA CONTRASEÑA NO SE ENVÍA A GOOGLE SHEETS.
+        ====================================================== */
+
+        /* =====================================================
+   CREAR CUENTA EN SUPABASE Y CREAR PERFIL DEL CLIENTE
+===================================================== */
+
+async function createAccountAndContinue() {
+
+    if (accountCreated) {
+
+        showStep(3);
+        return;
+
+    }
+
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+
+    errorMessage.style.display = "none";
+
+
+    /* Validar contraseña */
+
+    if (password.length < 8) {
+
+        errorMessage.textContent =
+            "Tu contraseña debe tener al menos 8 caracteres.";
+
+        errorMessage.style.display = "block";
+        return;
+
+    }
+
+
+    if (password !== confirmPassword) {
+
+        errorMessage.textContent =
+            "Las contraseñas no coinciden.";
+
+        errorMessage.style.display = "block";
+        return;
+
+    }
+
+
+    /* ================================================
+       DATOS DEL CLIENTE
+    ================================================= */
+
+    const correo =
+        document.getElementById("correo")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const datosCliente = {
+
+        nombreCompleto:
+            document.getElementById("nombre")
+                .value
+                .trim(),
+
+        tipoCliente:
+            tipoCliente.value,
+
+        razonSocial:
+            razonSocial.value.trim(),
+
+        rfc:
+            document.getElementById("rfc")
+                .value
+                .trim(),
+
+        telefono:
+            document.getElementById("telefono")
+                .value
+                .trim(),
+
+        pais:
+            document.getElementById("pais")
+                .value,
+
+        origen:
+            obtenerOrigen()
+
+    };
+
+
+    try {
+
+        createAccountButton.disabled = true;
+
+        createAccountButton.textContent =
+            "Creando tu cuenta...";
+
+
+        /* ============================================
+           1. CREAR USUARIO EN SUPABASE AUTH
+        ============================================= */
+
+        const {
+            data: authData,
+            error: authError
+        } = await supabaseClient.auth.signUp({
+
+            email: correo,
+            password: password
+
+        });
+
+
+        if (authError) {
+
+            throw authError;
+
+        }
+
+
+        if (!authData.user) {
+
+            throw new Error(
+                "No fue posible crear tu cuenta."
+            );
+
+        }
+
+
+        /* ============================================
+           2. CONFIRMAR QUE TENEMOS SESIÓN ACTIVA
+        ============================================= */
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+
+        if (sessionError) {
+
+            throw sessionError;
+
+        }
+
+
+        if (!sessionData.session) {
+
+            throw new Error(
+                "Tu cuenta fue creada, pero no pudimos iniciar tu sesión automáticamente."
+            );
+
+        }
+
+
+        createAccountButton.textContent =
+            "Creando tu perfil...";
+
+
+        /* ============================================
+           3. CREAR PERFIL EN LA TABLA CLIENTES
+
+           Usamos la función SQL que ya configuramos.
+        ============================================= */
+
+        const {
+            data: perfilData,
+            error: perfilError
+        } = await supabaseClient.rpc(
+            "crear_perfil_cliente",
+            {
+
+                p_nombre_completo:
+                    datosCliente.nombreCompleto,
+
+                p_tipo_cliente:
+                    datosCliente.tipoCliente,
+
+                p_razon_social:
+                    datosCliente.razonSocial,
+
+                p_rfc:
+                    datosCliente.rfc,
+
+                p_telefono:
+                    datosCliente.telefono,
+
+                p_pais:
+                    datosCliente.pais,
+
+                p_objetivo_principal:
+                    "Por definir",
+
+                p_origen:
+                    datosCliente.origen
+
+            }
+        );
+
+
+        if (perfilError) {
+
+            throw perfilError;
+
+        }
+
+
+        console.log(
+            "Usuario creado:",
+            authData.user.id
+        );
+
+        console.log(
+            "Perfil creado:",
+            perfilData
+        );
+
+
+        /* ============================================
+           4. MARCAR CUENTA COMO CREADA Y AVANZAR
+        ============================================= */
+
+        accountCreated = true;
+
+        createAccountButton.textContent =
+            "Cuenta creada ✓";
+
+
+        showStep(3);
+
+
+    } catch (error) {
+
+        console.error(
+            "Error al crear la cuenta:",
+            error
+        );
+
+
+        let mensaje =
+            "No pudimos completar tu registro. Por favor intenta nuevamente.";
+
+
+        if (
+            error.message &&
+            error.message.toLowerCase()
+                .includes("already registered")
+        ) {
+
+            mensaje =
+                "Este correo ya tiene una cuenta registrada. Puedes iniciar sesión.";
+
+        }
+
+
+        errorMessage.textContent = mensaje;
+
+        errorMessage.style.display = "block";
+
+
+        createAccountButton.disabled = false;
+
+        createAccountButton.textContent =
+            "Crear mi cuenta y continuar →";
+
+    }
+
+}
+
+        /* =====================================================
+           PASO ANTERIOR
+        ====================================================== */
+
+        function previousStep(currentStep) {
+
+            showStep(currentStep - 1);
+
+        }
+
+
+        /* =====================================================
+           MOSTRAR PASO
+        ====================================================== */
+
+        function showStep(step) {
+
+
+            document
+                .querySelectorAll(".form-step")
+                .forEach(
+                    function (element) {
+
+                        element.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "step" + step
+                )
+                .classList.add(
+                    "active"
+                );
+
+
+            for (
+                let i = 1;
+                i <= 3;
+                i++
+            ) {
+
+
+                const indicator =
+                    document.getElementById(
+                        "indicator" + i
+                    );
+
+
+                indicator.classList.remove(
+                    "active",
+                    "completed"
+                );
+
+
+                if (i < step) {
+
+                    indicator.classList.add(
+                        "completed"
+                    );
+
+                }
+
+                else if (i === step) {
+
+                    indicator.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+        /* =====================================================
+           IDENTIFICAR ORIGEN
+
+           Ejemplo:
+           registro/index.html?origen=Centum
+        ====================================================== */
+
+        function obtenerOrigen() {
+
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            return (
+                params.get("origen") ||
+                "SERVINVEST"
+            );
+
+        }
+
+/* =====================================================
+   REGISTRAR DESTINO Y CANALIZACIÓN
+===================================================== */
+
+async function registrarDestino(
+    event,
+    destino,
+    url,
+    nuevaPestana = false
+) {
+
+    event.preventDefault();
+
+
+    /* =================================================
+       ABRIR PESTAÑA DEL SOCIO DE FORMA INMEDIATA
+       Esto evita bloqueos del navegador.
+    ================================================= */
+
+    let ventanaDestino = null;
+
+    if (nuevaPestana) {
+
+        ventanaDestino = window.open(
+            "about:blank",
+            "_blank"
+        );
+
+    }
+
+
+    try {
+
+        /* =============================================
+           1. OBTENER USUARIO AUTENTICADO
+        ============================================= */
+
+        const {
+            data: { user },
+            error: userError
+        } = await supabaseClient.auth.getUser();
+
+
+        if (userError) {
+
+            throw userError;
+
+        }
+
+
+        if (!user) {
+
+            throw new Error(
+                "No encontramos una sesión activa."
+            );
+
+        }
+
+
+        console.log(
+            "Usuario autenticado:",
+            user.id
+        );
+
+
+        /* =============================================
+           2. OBTENER PERFIL DEL CLIENTE
+        ============================================= */
+
+        const {
+            data: cliente,
+            error: clienteError
+        } = await supabaseClient
+            .from("clientes")
+            .select(
+                "id, numero_cliente, nombre_completo"
+            )
+            .eq(
+                "auth_user_id",
+                user.id
+            )
+            .single();
+
+
+        if (clienteError) {
+
+            throw clienteError;
+
+        }
+
+
+        if (!cliente) {
+
+            throw new Error(
+                "No encontramos el perfil del cliente."
+            );
+
+        }
+
+
+        console.log(
+            "Cliente encontrado:",
+            cliente
+        );
+
+
+        /* =============================================
+           3. GUARDAR DESTINO INICIAL
+           
+           Esto actualiza la tabla CLIENTES.
+        ============================================= */
+
+        const {
+            error: destinoError
+        } = await supabaseClient
+            .from("clientes")
+            .update({
+
+                destino_inicial:
+                    destino,
+
+                fecha_destino_inicial:
+                    new Date().toISOString()
+
+            })
+            .eq(
+                "auth_user_id",
+                user.id
+            );
+
+
+        if (destinoError) {
+
+            throw destinoError;
+
+        }
+
+
+        console.log(
+            "Destino guardado correctamente:",
+            destino
+        );
+
+
+        /* =============================================
+           4. SI ES UN SOCIO, REGISTRAR CANALIZACIÓN
+           
+           Esto crea el historial comercial.
+        ============================================= */
+
+        if (
+            destino === "CENTUM" ||
+            destino === "ROCKET FX" ||
+            destino === "WIREBIT"
+        ) {
+
+
+            const {
+                error: canalizacionError
+            } = await supabaseClient
+                .from("canalizaciones")
+                .insert({
+
+                    cliente_id:
+                        cliente.id,
+
+                    numero_cliente:
+                        cliente.numero_cliente,
+
+                    nombre_cliente:
+                        cliente.nombre_completo,
+
+                    socio:
+                        destino,
+
+                    estatus:
+                        "Canalizado"
+
+                });
+
+
+            if (canalizacionError) {
+
+                console.error(
+                    "Error al registrar canalización:",
+                    canalizacionError
+                );
+
+                /*
+                   No bloqueamos al cliente.
+                   La página del socio continuará abriendo.
+                */
+
+            } else {
+
+                console.log(
+                    "Canalización registrada correctamente:",
+                    destino
+                );
+
+            }
+
+        }
+
+
+        /* =============================================
+           5. CONTINUAR HACIA EL DESTINO
+        ============================================= */
+
+        if (nuevaPestana) {
+
+            if (ventanaDestino) {
+
+                ventanaDestino.location.href =
+                    url;
+
+            } else {
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+
+        } else {
+
+            window.location.href =
+                url;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Error al registrar destino/canalización:",
+            error
+        );
+
+
+        /*
+           Si la pestaña del socio ya fue abierta,
+           la llevamos igualmente al destino.
+        */
+
+        if (nuevaPestana) {
+
+            if (ventanaDestino) {
+
+                ventanaDestino.location.href =
+                    url;
+
+            } else {
+
+                window.open(
+                    url,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+
+        } else {
+
+            window.location.href =
+                url;
+
+        }
+
+    }
+
+}
+        /* =====================================================
+           EVITAR ENVÍO TRADICIONAL DEL FORMULARIO
+        ====================================================== */
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERVINVEST Digital - Dashboard Ejecutivo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --primary: #0099ff;
+            --primary-dark: #002266;
+            --sidebar-bg: #030040; 
+            --bg: #F7F9FC;
+            --card: #FFFFFF;
+            --text: #1F2937;
+            --muted: #6B7280;
+            --success: #16A34A;
+            --success-bg: #DCFCE7;
+            --warning: #D97706;
+            --warning-bg: #FEF3C7;
+            --danger: #DC2626;
+            --border: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 30px 24px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-img{
+    width:220px;
+    height:auto;
+    display:block;
+}
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding-left: 8px;
+        }
+
+        .logo-svg {
+            width: 42px;
+            height: 42px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .brand {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #FFFFFF;
+            line-height: 1;
+        }
+
+        .logo-text .inc {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #0099ff;
+            margin-top: 4px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.75);
+            padding: 12px 16px;
+            border-radius: 10px;
+            transition: all .2s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu a:hover, .menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--sidebar-bg);
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-top: 4px;
+            font-size: 15px;
+        }
+
+        .notification-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, var(--sidebar-bg), #0a3399);
+            color: white;
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(3, 0, 64, 0.15);
+        }
+
+        .hero-left h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .patrimonio {
+            font-size: 44px;
+            font-weight: 700;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 25px;
+        }
+
+        .hero-stat h3 {
+            font-size: 13px;
+            opacity: .8;
+            margin-bottom: 4px;
+        }
+
+        .hero-stat p {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .health-card {
+            background: var(--card);
+            color: var(--text);
+            padding: 25px;
+            border-radius: 18px;
+            width: 300px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .health-card h3 {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .status {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .health-card p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.04);
+        }
+
+        .kpi-card span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .kpi-card h2 {
+            margin-top: 10px;
+            color: var(--sidebar-bg);
+        }
+
+        /* Grid System */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.01);
+        }
+
+        .card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--sidebar-bg);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Card Layout Spans */
+       .chart-card{
+    grid-column: span 12;
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:32px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.04);
+
+    border:1px solid #eef2f7;
+}
+        .daily-insight { grid-column: span 12; } /* Nueva Alerta Acompañamiento */
+        .explicada { grid-column: span 5; }
+        .market { grid-column: span 3; }
+        .navigator { grid-column: span 4; }
+        .transparency { grid-column: span 6; }
+        .wealth { grid-column: span 6; }
+
+        /* 1. Growth Header (Historia de Gráfica) */
+        .growth-header {
+            margin-bottom: 20px;
+        }
+        .growth-header h2 {
+            font-size: 24px;
+            color: var(--sidebar-bg);
+            font-weight: 700;
+        }
+        .growth-header h2 span {
+            color: var(--primary);
+        }
+        .growth-header p {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* 8. Insight del Día Widget */
+        .daily-insight-box {
+            background: linear-gradient(90deg, #edf7ff 0%, #ffffff 100%);
+            border-left: 5px solid var(--primary);
+            border-radius: 14px;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 153, 255, 0.05);
+        }
+        .daily-content h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .daily-content p {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--sidebar-bg);
+        }
+        .daily-perspective {
+            text-align: right;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .daily-perspective strong {
+            display: block;
+            font-size: 16px;
+            color: var(--success);
+        }
+
+        /* 3. Market Pulse Header */
+        .market-header-score {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .market-header-score h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--sidebar-bg);
+        }
+        .market-status-badge {
+            background: var(--success-bg);
+            color: var(--success);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* 4. Financial Navigator Refactor */
+        .nav-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .nav-stat-block span {
+            font-size: 12px;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .nav-stat-block strong {
+            font-size: 15px;
+            color: var(--sidebar-bg);
+            font-weight: 700;
+        }
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 18px;
+            position: relative;
+        }
+        .flow-step.active-step {
+            border-color: rgba(0, 153, 255, 0.3);
+            background: #f4faff;
+        }
+        .step-icon {
+            font-size: 18px;
+            margin-right: 15px;
+            width: 32px;
+            height: 32px;
+            background: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .active-step .step-icon {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+        .step-info span {
+            font-size: 11px;
+            color: var(--muted);
+            display: block;
+            text-transform: uppercase;
+        }
+        .step-info p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--sidebar-bg);
+        }
+        .flow-arrow {
+            text-align: center;
+            color: var(--primary);
+            font-size: 14px;
+            line-height: 1;
+            margin: -4px 0;
+            opacity: 0.7;
+        }
+
+        .tier-header {
+            background: linear-gradient(135deg, #f4f7fe 0%, #eef2ff 100%);
+            padding: 15px 20px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .tier-meta span {
+            font-size: 12px;
+            color: var(--muted);
+            display: block;
+        }
+        .tier-meta h4 {
+            font-size: 18px;
+            color: var(--sidebar-bg);
+            font-weight: 700;
+        }
+        .tier-badge {
+            background: #DFE7FD;
+            color: #4361EE;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .explicada p { font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+        .explicada ul { margin-left: 20px; font-size: 14px; color: var(--text); line-height: 1.8; }
+        .insight-box { margin-top: 20px; background: #f8fbff; border-left: 4px solid var(--primary); padding: 15px; border-radius: 10px; }
+        .insight-box strong { font-size: 14px; display: block; margin-bottom: 4px; }
+        .insight-box p { font-size: 13px; color: #374151; line-height: 1.5; }
+        .market-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .market-item:last-child { border-bottom: none; }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-success { background: var(--success-bg); color: var(--success); }
+        .badge-warning { background: var(--warning-bg); color: var(--warning); }
+        .timeline { display: flex; flex-direction: column; gap: 16px; }
+        .timeline-item { padding-left: 15px; border-left: 3px solid var(--success); font-size: 13px; font-weight: 500; color: var(--text); }
+        .wealth .timeline-item:last-child { border-left: 3px dashed var(--primary); }
+.growth-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:24px;
+}
+
+.chart-filters{
+    display:flex;
+    gap:8px;
+}
+
+.chart-filters button{
+    border:none;
+    background:#f4f7fb;
+    color:#64748b;
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    font-size:13px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.chart-filters button:hover{
+    background:#e8eef8;
+}
+
+.chart-filters button.active{
+    background:#030040;
+    color:white;
+}
+        /* Responsividad Avanzada */
+        @media(max-width: 1400px) {
+            .explicada { grid-column: span 12; }
+            .market { grid-column: span 5; }
+            .navigator { grid-column: span 7; }
+            .transparency, .wealth { grid-column: span 12; }
+        }
+
+        @media(max-width: 1024px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; padding: 20px; }
+            .logo-container { margin-bottom: 25px; }
+            .menu { flex-direction: row; flex-wrap: wrap; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero { flex-direction: column; gap: 25px; align-items: flex-start; }
+            .health-card { width: 100%; }
+            .main { padding: 20px; }
+            .daily-insight-box { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .daily-perspective { text-align: left; }
+        }
+
+        @media(max-width: 768px) {
+            .kpi-grid { grid-template-columns: 1fr; }
+            .market, .navigator { grid-column: span 12; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="logo-container">
+   <img src="logo_azul.png"
+     alt="SERVINVEST"
+     class="logo-img">
+</div>
+
+        <div class="menu">
+            <a href="#" class="active">🏠 Dashboard</a>
+            <a href="#">💼 Mi Portafolio</a>
+            <a href="#">📈 Rendimientos</a>
+            <a href="#">🔍 SERVINVEST Insight™</a>
+            <a href="#">🌎 Inteligencia de Mercado</a>
+            <a href="#">📄 Movimientos</a>
+            <a href="#">👤 Perfil</a>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <div>
+                <h1 id="welcome-message">Bienvenido</h1>
+
+<p class="subtitle">
+    <span id="cliente-identificacion"></span>
+    Tu patrimonio continúa creciendo dentro de los parámetros esperados.
+</p>
+            </div>
+            <button class="notification-btn">
+                <span>🔔</span> Notificaciones
+            </button>
+        </div>
+
+        <div class="hero">
+            <div class="hero-left">
+                <h2>Patrimonio Total</h2>
+                <div class="patrimonio" id="txt-patrimonio">$0.00 MXN</div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <h3>Ganancia acumulada</h3>
+                        <p id="txt-ganancia">+$0.00</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>Rendimiento</h3>
+                        <p id="txt-rendimiento">+0.0%</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>Score del Portafolio</h3>
+                        <p>89/100</p>
+                    </div>
+                </div>
+            </div>
+            <div class="health-card">
+                <h3>Estado General</h3>
+                <div class="status">● Saludable</div>
+                <p>Tu estrategia de inversión evoluciona de forma óptima dentro de los rangos de riesgo autorizados.</p>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span>Rendimiento Mensual</span>
+                <h2>+1.85%</h2>
+            </div>
+            <div class="kpi-card">
+                <span>Market Pulse</span>
+                <h2>82/100</h2>
+            </div>
+            <div class="kpi-card">
+                <span>Riesgo</span>
+                <h2>Moderado</h2>
+            </div>
+            <div class="kpi-card">
+                <span>Próxima acreditación</span>
+                <h2>15 Jul</h2>
+            </div>
+        </div>
+
+        <div class="grid">
+            
+            <div class="daily-insight">
+                <div class="daily-insight-box">
+                    <div class="daily-content">
+                        <h4>Indicador destacado del día</h4>
+                        <p>La fortaleza reciente del dólar estadounidense continúa favoreciendo activamente las estrategias internacionales.</p>
+                    </div>
+                    <div class="daily-perspective">
+                        Perspectiva
+                        <strong>Favorable</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card chart-card">
+
+    <div class="growth-header">
+
+        <div>
+            <h2>
+                Tu patrimonio ha crecido
+                <span>$70,000 MXN</span>
+            </h2>
+            <p>Desde tu incorporación a SERVINVEST</p>
+        </div>
+
+        <div class="chart-filters">
+            <button class="active">1M</button>
+            <button>3M</button>
+            <button>6M</button>
+            <button>YTD</button>
+            <button>1A</button>
+            <button>Todo</button>
+        </div>
+
+    </div>
+
+    <div style="width:100%; height:320px;">
+        <canvas id="patrimonioChart"></canvas>
+    </div>
+
+</div>
+
+            </div>
+
+            <div class="card explicada">
+                <h3>Análisis SERVINVEST™</h3>
+                <p><strong>¿Qué ocurrió este mes?</strong></p>
+                <p style="color: var(--success); font-weight: 600; font-size: 18px;">+1.85% mensual</p>
+                <br>
+                <p><strong>Factores clave del rendimiento:</strong></p>
+                <ul>
+                    <li>Fortaleza de activos denominados en USD.</li>
+                    <li>Rendimientos positivos en portafolio de Commodities.</li>
+                    <li>Ejecución óptima mediante gestión algorítmica activa.</li>
+                </ul>
+                
+                <div class="insight-box">
+                    <strong>¿Qué significa para mí?</strong>
+                    <p>Las condiciones actuales continúan favoreciendo las estrategias implementadas y el comportamiento observado se mantiene dentro de los escenarios previstos.</p>
+                </div>
+            </div>
+
+            <div class="card market">
+                <h3>Inteligencia Mercado</h3>
+                <div class="market-header-score">
+                    <h2>82<span style="font-size:16px; color:var(--muted); font-weight:400;">/100</span></h2>
+                    <span class="market-status-badge">🟢 Favorable</span>
+                </div>
+                <div class="market-item">
+                    <span>Inflación</span>
+                    <span class="badge badge-success">Estable</span>
+                </div>
+                <div class="market-item">
+                    <span>Tasas de Interés</span>
+                    <span class="badge badge-warning">Monitoreo</span>
+                </div>
+                <div class="market-item">
+                    <span>Tipo de Cambio</span>
+                    <span class="badge badge-success">Favorable</span>
+                </div>
+                <div class="market-item">
+                    <span>Volatilidad</span>
+                    <span class="badge badge-success">Baja</span>
+                </div>
+            </div>
+
+            <div class="card navigator">
+                <h3>Monitoreo</h3>
+                <div class="nav-stats">
+                    <div class="nav-stat-block">
+                        <span>Meta</span>
+                        <strong id="txt-meta">$0.00</strong>
+                    </div>
+                    <div class="nav-stat-block">
+                        <span>Actual</span>
+                        <strong style="color: var(--primary);">$250,000</strong>
+                    </div>
+                    <div class="nav-stat-block">
+                        <span>Restante</span>
+                        <strong>$250,000</strong>
+                    </div>
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <p id="txt-completado" style="font-size: 18px; font-weight: 700; color: var(--sidebar-bg); text-align: right;">0%</p>
+                
+                <p style="font-size: 13px; color: var(--muted); margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px;">
+                    Tiempo estimado: <strong style="color: var(--text);">3 años 4 meses</strong>
+                </p>
+            </div>
+
+            <div class="card transparency">
+                <h3>Centro de Transparencia</h3>
+                <div class="flow-container">
+                    <div class="flow-step active-step">
+                        <div class="step-icon">🇲🇽</div>
+                        <div class="step-info"><span>Paso 01</span><p>Ingreso de Fondos (MXN)</p></div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step active-step">
+                        <div class="step-icon">🛡️</div>
+                        <div class="step-info"><span>Paso 02</span><p>Validación e Institucionalización</p></div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step active-step">
+                        <div class="step-icon">🇺🇸</div>
+                        <div class="step-info"><span>Paso 03</span><p>Conversión Cobertura (USD)</p></div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step active-step">
+                        <div class="step-icon">⚙️</div>
+                        <div class="step-info"><span>Paso 04</span><p>Asignación a Estrategia Diversificada</p></div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step active-step">
+                        <div class="step-icon">📈</div>
+                        <div class="step-info"><span>Paso 05</span><p>Generación de Rendimiento Activo</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card wealth">
+                <h3>Evolución</h3>
+                <div class="tier-header">
+                    <div class="tier-meta">
+                        <span>Nivel de inversión</span>
+                    </div>
+                    <span class="tier-badge">3 de 5 Hitos</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">✓ Primer depósito verificado y operando</div>
+                    <div class="timeline-item">✓ Ciclo de maduración inicial completado</div>
+                    <div class="timeline-item">✓ Consolidación patrimonial superior a $250,000</div>
+                    <div class="timeline-item">🎯 Próximo objetivo de escala: $500,000</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* =====================================================
+   CONFIGURACIÓN SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://ktniiycwdjhijvkfrmpo.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_FNHczlxLwl49X103Yxag2A_X-K-9mMm";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+/* =====================================================
+   INICIALIZAR DASHBOARD
+===================================================== */
+
+async function inicializarDashboard() {
+
+    try {
+
+        console.log(
+            "Iniciando dashboard SERVINVEST..."
+        );
+
+
+        /* =============================================
+           1. OBTENER SESIÓN ACTUAL
+        ============================================= */
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (sessionError) {
+
+            throw sessionError;
+
+        }
+
+
+        const session =
+            sessionData.session;
+
+
+        /* =============================================
+           SI NO HAY SESIÓN
+        ============================================= */
+
+        if (!session || !session.user) {
+
+            console.warn(
+                "No existe una sesión activa."
+            );
+
+
+            window.location.href =
+                "../login/index.html";
+
+
+            return;
+
+        }
+
+
+        const authUserId =
+            session.user.id;
+
+
+        console.log(
+            "Usuario autenticado:",
+            authUserId
+        );
+
+
+        /* =============================================
+           2. BUSCAR CLIENTE
+        ============================================= */
+
+        const {
+            data: cliente,
+            error: clienteError
+        } =
+            await supabaseClient
+                .from("clientes")
+                .select(`
+                    id,
+                    auth_user_id,
+                    numero_cliente,
+                    nombre_completo,
+                    tipo_cliente,
+                    razon_social,
+                    rfc,
+                    correo,
+                    telefono,
+                    pais,
+                    objetivo_principal,
+                    origen,
+                    estatus,
+                    destino_inicial,
+                    fecha_destino_inicial
+                `)
+                .eq(
+                    "auth_user_id",
+                    authUserId
+                )
+                .single();
+
+
+        if (clienteError) {
+
+            console.error(
+                "Error al consultar cliente:",
+                clienteError
+            );
+
+            throw clienteError;
+
+        }
+
+
+        if (!cliente) {
+
+            throw new Error(
+                "No encontramos el perfil del cliente."
+            );
+
+        }
+
+
+        console.log(
+            "Cliente encontrado:",
+            cliente
+        );
+
+
+        /* =============================================
+           3. VERIFICAR ESTATUS
+        ============================================= */
+
+        if (
+            cliente.estatus &&
+            cliente.estatus !== "Activo"
+        ) {
+
+            throw new Error(
+                "La cuenta del cliente no se encuentra activa."
+            );
+
+        }
+
+
+        /* =============================================
+           4. IDENTIFICACIÓN DEL CLIENTE
+        ============================================= */
+
+        const nombreCompleto =
+            cliente.nombre_completo ||
+            "Cliente";
+
+
+        /*
+           Tomamos solamente el primer nombre
+           para el saludo.
+        */
+
+        const primerNombre =
+            nombreCompleto
+                .trim()
+                .split(" ")[0];
+
+
+        document
+            .getElementById("welcome-message")
+            .innerText =
+                `¡Bienvenido, ${primerNombre}! 👋`;
+
+
+        document
+            .getElementById("cliente-identificacion")
+            .innerText =
+                cliente.numero_cliente
+                    ? `Cliente ${cliente.numero_cliente} · `
+                    : "";
+
+
+        /* =============================================
+           5. GUARDAR DATOS DE SESIÓN
+        ============================================= */
+
+        sessionStorage.setItem(
+            "servinvest_cliente_id",
+            cliente.id
+        );
+
+
+        sessionStorage.setItem(
+            "servinvest_numero_cliente",
+            cliente.numero_cliente || ""
+        );
+
+
+        sessionStorage.setItem(
+            "servinvest_nombre_cliente",
+            cliente.nombre_completo || ""
+        );
+
+
+        /* =============================================
+           6. DATOS FINANCIEROS PROVISIONALES
+           
+           IMPORTANTE:
+           Estos todavía son datos de demostración.
+           Los sustituiremos por tablas reales después.
+        ============================================= */
+
+        const dashboardData = {
+
+            patrimonioActual: 250000,
+
+            gananciaAcumulada: 38500,
+
+            porcentajeRendimiento: 18.2,
+
+            metaObjetivo: 500000,
+
+            historicoDatos: [
+                180000,
+                190000,
+                205000,
+                220000,
+                235000,
+                250000
+            ],
+
+            historicoMeses: [
+                "Ene",
+                "Feb",
+                "Mar",
+                "Abr",
+                "May",
+                "Jun"
+            ]
+
+        };
+
+
+        /* =============================================
+           7. PINTAR INDICADORES
+        ============================================= */
+
+        document
+            .getElementById("txt-patrimonio")
+            .innerText =
+                `$${dashboardData.patrimonioActual.toLocaleString("es-MX")} MXN`;
+
+
+        document
+            .getElementById("txt-ganancia")
+            .innerText =
+                `+$${dashboardData.gananciaAcumulada.toLocaleString("es-MX")}`;
+
+
+        document
+            .getElementById("txt-rendimiento")
+            .innerText =
+                `+${dashboardData.porcentajeRendimiento}%`;
+
+
+        document
+            .getElementById("txt-meta")
+            .innerText =
+                `$${dashboardData.metaObjetivo.toLocaleString("es-MX")} MXN`;
+
+
+        /* =============================================
+           8. PROGRESO DE META
+        ============================================= */
+
+        const porcentajeCompletado =
+            Math.min(
+                100,
+                Math.round(
+                    (
+                        dashboardData.patrimonioActual /
+                        dashboardData.metaObjetivo
+                    ) * 100
+                )
+            );
+
+
+        document
+            .getElementById("txt-completado")
+            .innerText =
+                `${porcentajeCompletado}%`;
+
+
+        setTimeout(
+            function () {
+
+                document
+                    .getElementById("progress-bar")
+                    .style.width =
+                        `${porcentajeCompletado}%`;
+
+            },
+            300
+        );
+
+
+        /* =============================================
+           9. GRÁFICA
+        ============================================= */
+
+        const canvas =
+            document.getElementById(
+                "patrimonioChart"
+            );
+
+
+        if (canvas) {
+
+            const ctx =
+                canvas.getContext("2d");
+
+
+            new Chart(
+                ctx,
+                {
+
+                    type: "line",
+
+                    data: {
+
+                        labels:
+                            dashboardData.historicoMeses,
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Evolución de Saldo ($)",
+
+                                data:
+                                    dashboardData.historicoDatos,
+
+                                borderColor:
+                                    "#0099ff",
+
+                                backgroundColor:
+                                    "rgba(0, 153, 255, 0.04)",
+
+                                borderWidth: 3,
+
+                                tension: 0.35,
+
+                                pointBackgroundColor:
+                                    "#030040",
+
+                                pointRadius: 4,
+
+                                fill: true
+
+                            }
+
+                        ]
+
+                    },
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+
+                        plugins: {
+
+                            legend: {
+                                display: false
+                            }
+
+                        },
+
+
+                        scales: {
+
+                            x: {
+
+                                grid: {
+                                    display: false
+                                },
+
+                                ticks: {
+
+                                    color:
+                                        "#6B7280",
+
+                                    font: {
+                                        size: 12
+                                    }
+
+                                }
+
+                            },
+
+
+                            y: {
+
+                                grid: {
+
+                                    color:
+                                        "#E5E7EB"
+
+                                },
+
+
+                                ticks: {
+
+                                    color:
+                                        "#6B7280",
+
+                                    font: {
+                                        size: 12
+                                    },
+
+
+                                    callback:
+                                        function(value) {
+
+                                            return (
+                                                "$" +
+                                                value.toLocaleString(
+                                                    "es-MX"
+                                                )
+                                            );
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        console.log(
+            "Dashboard inicializado correctamente."
+        );
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Error al inicializar dashboard:",
+            error
+        );
+
+
+        /*
+           Si ocurre un problema, no dejamos
+           al usuario viendo información que
+           podría pertenecer a otra cuenta.
+        */
+
+        document
+            .getElementById("welcome-message")
+            .innerText =
+                "No fue posible cargar tu cuenta";
+
+
+        const identificacion =
+            document.getElementById(
+                "cliente-identificacion"
+            );
+
+
+        if (identificacion) {
+
+            identificacion.innerText = "";
+
+        }
+
+
+        alert(
+            "No pudimos cargar la información de tu cuenta. Por favor, vuelve a iniciar sesión."
+        );
+
+
+    }
+
+}
+
+
+/* =====================================================
+   EJECUTAR AL CARGAR
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    inicializarDashboard
+);
+
+
+</script>
+
+</body>
+</html>
